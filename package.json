@@ -1,0 +1,22 @@
+{
+	"name": "demo-cuccumber-wdio",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"test:wdio:mocha": "wdio run ./tests/web/config/mocha.conf.js",
+		"test:wdio:cucumber": "wdio run ./tests/web/config/cucumber.conf.js"
+	},
+	"dependencies": {
+		"@wdio/cucumber-framework": "5.23.0",
+		"@wdio/local-runner": "5.23.0",
+		"@wdio/mocha-framework": "5.23.0",
+		"@wdio/spec-reporter": "5.23.0",
+		"@wdio/sync": "5.23.0",
+		"expect": "^26.6.1",
+		"webdriverio": "5.23.0"
+	},
+	"devDependencies": {
+		"@wdio/cli": "5.23.0"
+	}
+}
