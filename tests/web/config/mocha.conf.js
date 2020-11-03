@@ -15,6 +15,8 @@ exports.config = {
 		outputDir: "./reports",
 	},
 
+	// maxInstances: 1,
+
 	capabilities: [
 		{
 			"bstack:options": {
@@ -27,6 +29,8 @@ exports.config = {
 				projectName: "demo-wdio",
 				sessionName: "wdio-js iPhone",
 			},
+			maxInstances: 1,
+			browserName: "iPhone 8",
 		},
 		{
 			"bstack:options": {
@@ -39,6 +43,8 @@ exports.config = {
 				projectName: "demo-wdio",
 				sessionName: "wdio-js iPhone",
 			},
+			maxInstances: 1,
+			browserName: "iPhone 11",
 		},
 		{
 			"bstack:options": {
@@ -51,6 +57,8 @@ exports.config = {
 				projectName: "demo-wdio",
 				sessionName: "wdio-js iPhone",
 			},
+			maxInstances: 1,
+			browserName: "iPhone 8 Plus",
 		},
 	],
 
