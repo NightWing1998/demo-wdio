@@ -1,34 +1,45 @@
 // require("@wdio/sync");
 const expect = require("expect");
 
-describe("Astro tests with reload browsers", function () {
-	it("Featured test", async function () {
+describe("Testing search on Google", function () {
+	before(async function () {
 		await browser.url("/");
-		await (await $(`#headerDrawer`)).click();
-		await (await $(`#headerMobileProductsServices .jss635`)).click();
-		// while (!$(`#headerMobileTVGuide`).isDisplayed()) {}
-		await (await $(`#headerMobileTVGuide .jss635`)).click();
-		const elements = await $$(
-			`#headerMobileTVGuide .mobile-drawer-subcategory`
-		);
-		// console.log(elements);
-		const text = await elements[0].getText();
-		expect(text).toBe("Featured");
-		// browser.reloadSession();
-	});
-	it("Broadband bundles test", async function () {
-		await browser.url("/");
-		await (await $(`#headerDrawer`)).click();
-		const elements = await $$(`.mobile-drawer-subcategory`);
-		const text = await elements[0].getText();
-		expect(text).toBe("Broadband Bundles");
 	});
 
-	afterEach(async () => {
-		await browser.reloadSession();
+	it("Navigate to Google and search for Browserstack", async function () {
+		await (await $("input[name=q]")).click();
+		await browser.keys(["BrowserStack", "Enter"]);
+		// await browser.submitForm("form");
+		await browser.waitUntil(() => $("#res div").isExisting(), 5000);
+		expect(await $$("#res div")).not.toHaveLength(0);
 	});
 
-	// after(() => {
-	// 	browser.deleteSession();
-	// });
+	it("Test for title", async function () {
+		expect(await browser.getTitle()).toBe("BrowserStack - Google Search");
+	});
+
+	after(async function () {
+		if (
+			this.test.parent.tests.reduce(
+				(previousTestResult, currentTest) =>
+					previousTestResult && currentTest.isPassed(),
+				true
+			)
+		) {
+			browser.execute(
+				`browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Great application!!"}}`
+			);
+		} else {
+			let reasons = [];
+			this.test.parent.tests.forEach((test) => {
+				if (test.isFailed()) {
+					if (test.err) reasons.push(test.err.message);
+					else reasons.push(test.title + " failed.");
+				}
+			});
+			browser.execute(
+				`browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "${reasons.toString()}"}}`
+			);
+		}
+	});
 });
